@@ -133,6 +133,9 @@
 	      update: function(){
 	        update(renderer, scenes, processCamera, renderTargets, uniforms);
 	      },
+	      updateTargetPosition: function(newTargetPosition) {
+        	uniforms.display.targetPosition.value.copy(newTargetPosition);
+          },
 	      pointCloud: this.pointCloud
 	    };
 	  };
@@ -250,9 +253,6 @@
 	    uniforms.velocity.velTex.value = renderTargets.velocity[buffer];
 	    uniforms.position.posTex.value = renderTargets.position[buffer];
 
-//EL :
-		var curPos = uniforms.display.targetPosition.value;
-	    uniforms.display.targetPosition.value.set(curPos.x , curPos.y, curPos.z);
 
 	    renderer.render(scenes.velocity, processCamera, renderTargets.velocity[newBuffer]);
 

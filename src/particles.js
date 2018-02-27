@@ -87,6 +87,10 @@
       update: function(){
         update(renderer, scenes, processCamera, renderTargets, uniforms);
       },
+
+      updateTargetPosition: function(newTargetPosition) {
+        uniforms.display.targetPosition.value.copy(newTargetPosition);
+      },
       pointCloud: this.pointCloud
     };
   };
