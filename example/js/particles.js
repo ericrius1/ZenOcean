@@ -252,7 +252,7 @@
 
 //EL :
 		var curPos = uniforms.display.targetPosition.value;
-	    uniforms.display.targetPosition.value.set(curPos.x+ 0.01, curPos.y, curPos.z);
+	    uniforms.display.targetPosition.value.set(curPos.x , curPos.y, curPos.z);
 
 	    renderer.render(scenes.velocity, processCamera, renderTargets.velocity[newBuffer]);
 
