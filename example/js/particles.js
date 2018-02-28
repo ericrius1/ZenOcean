@@ -133,9 +133,10 @@
 	      update: function(){
 	        update(renderer, scenes, processCamera, renderTargets, uniforms);
 	      },
+
 	      updateTargetPosition: function(newTargetPosition) {
-        	uniforms.display.targetPosition.value.copy(newTargetPosition);
-          },
+	        uniforms.display.targetPosition.value.copy(newTargetPosition);
+	      },
 	      pointCloud: this.pointCloud
 	    };
 	  };
@@ -254,6 +255,7 @@
 	    uniforms.position.posTex.value = renderTargets.position[buffer];
 
 
+	    
 	    renderer.render(scenes.velocity, processCamera, renderTargets.velocity[newBuffer]);
 
 	    uniforms.position.velTex.value = renderTargets.velocity[newBuffer];
@@ -289,7 +291,7 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	module.exports = "varying vec2 vUv;\nuniform sampler2D velTex;\nuniform sampler2D posTex;\nuniform sampler2D targetTex;\nuniform vec3 targetPosition;\nuniform float gravityFactor;\nuniform int useTargetTexture;\n\nvoid main() {\n  vec3 inVelocity = texture2D(velTex, vUv).rgb;\n  vec3 inPosition = texture2D(posTex, vUv).rgb;\n  vec3 targetPos = targetPosition;\n  vec3 outVelocity;\n  if(useTargetTexture == 1) {\n    targetPos = texture2D(targetTex, vUv).rgb;\n  }\n\n  float dist = distance(targetPos, inPosition);\n  vec3 direction = normalize(targetPos - inPosition);\n\n  /*replace*/\n  dist = max(dist, 1.0);\n  outVelocity = inVelocity + ((direction / dist) * gravityFactor * 0.01);\n  /*replace*/\n\n  gl_FragColor = vec4( outVelocity, 1.0 );\n}\n"
+	module.exports = "varying vec2 vUv;\nuniform sampler2D velTex;\nuniform sampler2D posTex;\nuniform sampler2D targetTex;\nuniform vec3 targetPosition;\nuniform float gravityFactor;\nuniform int useTargetTexture;\n\nvoid main() {\n  vec3 inVelocity = texture2D(velTex, vUv).rgb;\n  vec3 inPosition = texture2D(posTex, vUv).rgb;\n  vec3 attractorPos = targetPosition;\n  vec3 returnPos;\n  vec3 outVelocity;\n  returnPos = texture2D(targetTex, vUv).rgb;\n\n\n  vec3 attractorForce= attractorPos - inPosition;\n  vec3 returnForce = returnPos - inPosition;\n\n  vec3 finalForce = attractorForce + returnForce;\n\n\n   outVelocity = inVelocity + finalForce * 0.001;\n\n  gl_FragColor = vec4( outVelocity, 1.0 );\n}\n"
 
 /***/ },
 /* 3 */
@@ -307,13 +309,13 @@
 /* 5 */
 /***/ function(module, exports) {
 
-	module.exports = "uniform sampler2D posTex;\nuniform float pointSize;\nuniform vec3 targetPosition;\nvarying float dist;\n\nvoid main() {\n  vec3 pos = texture2D(posTex, position.xy).rgb;\n  dist = distance(targetPosition, pos);\n  gl_PointSize = pointSize;\n  gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);\n}\n"
+	module.exports = "uniform sampler2D posTex;\n\nuniform float pointSize;\nuniform vec3 targetPosition;\n\nvarying float dist;\nvarying vec2 vUv;\n\n\nfloat rand(float x){\n  return fract(sin(x)*100000.);\n}\n\nvoid main() {\n  vec3 pos = texture2D(posTex, position.xy).rgb;\n  dist = distance(targetPosition, pos);\n  gl_PointSize = pointSize + rand(position.x) * 2.;\n  gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);\n}\n"
 
 /***/ },
 /* 6 */
 /***/ function(module, exports) {
 
-	module.exports = "varying float dist;\nuniform float alpha;\n\nvoid main() {\n  vec4 color;\n  /*replace*/\n  color = vec4(0.0, 1.0, 0.0, alpha);\n  /*replace*/\n  gl_FragColor = color;\n}\n"
+	module.exports = "varying float dist;\nuniform float alpha;\n\n\n\nvoid main() {\n  vec4 color;\n  /*replace*/\n  color = vec4(0.0, 1.0, 0.0, alpha);\n  /*replace*/\n  gl_FragColor = color;\n}\n"
 
 /***/ },
 /* 7 */

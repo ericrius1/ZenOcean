@@ -9,19 +9,19 @@ uniform int useTargetTexture;
 void main() {
   vec3 inVelocity = texture2D(velTex, vUv).rgb;
   vec3 inPosition = texture2D(posTex, vUv).rgb;
-  vec3 targetPos = targetPosition;
+  vec3 attractorPos = targetPosition;
+  vec3 returnPos;
   vec3 outVelocity;
-  if(useTargetTexture == 1) {
-    targetPos = texture2D(targetTex, vUv).rgb;
-  }
+  returnPos = texture2D(targetTex, vUv).rgb;
 
-  float dist = distance(targetPos, inPosition);
-  vec3 direction = normalize(targetPos - inPosition);
 
-  /*replace*/
-  dist = max(dist, 1.0);
-  outVelocity = inVelocity + ((direction / dist) * gravityFactor * 0.01);
-  /*replace*/
+  vec3 attractorForce= attractorPos - inPosition;
+  vec3 returnForce = returnPos - inPosition;
+
+  vec3 finalForce = attractorForce + returnForce;
+
+
+   outVelocity = inVelocity + finalForce * 0.001;
 
   gl_FragColor = vec4( outVelocity, 1.0 );
 }

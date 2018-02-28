@@ -12,7 +12,8 @@
     "gulp-gh-pages": "~0.4.0",
     "gulp-watch": "^4.3.5",
     "raw-loader": "^0.5.1",
-    "webpack": "1.12.2"
+    "webpack": "1.12.2",
+    "webpack-cli": "^2.0.9"
   },
   "keywords": [
     "particles",

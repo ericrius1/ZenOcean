@@ -1,6 +1,8 @@
 varying float dist;
 uniform float alpha;
 
+
+
 void main() {
   vec4 color;
   /*replace*/
