@@ -291,7 +291,7 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	module.exports = "varying vec2 vUv;\nuniform sampler2D velTex;\nuniform sampler2D posTex;\nuniform sampler2D targetTex;\nuniform vec3 targetPosition;\nuniform float gravityFactor;\nuniform int useTargetTexture;\n\nvoid main() {\n  vec3 inVelocity = texture2D(velTex, vUv).rgb;\n  vec3 inPosition = texture2D(posTex, vUv).rgb;\n  vec3 attractorPos = targetPosition;\n  vec3 returnPos;\n  vec3 outVelocity;\n  returnPos = texture2D(targetTex, vUv).rgb;\n\n\n  vec3 attractorForce= attractorPos - inPosition;\n  vec3 returnForce = returnPos - inPosition;\n\n  vec3 finalForce = attractorForce + returnForce;\n\n\n   outVelocity = inVelocity + finalForce * 0.001;\n\n  gl_FragColor = vec4( outVelocity, 1.0 );\n}\n"
+	module.exports = "varying vec2 vUv;\nuniform sampler2D velTex;\nuniform sampler2D posTex;\nuniform sampler2D targetTex;\nuniform vec3 targetPosition;\nuniform float gravityFactor;\nuniform int useTargetTexture;\n\nvoid main() {\n  vec3 inVelocity = texture2D(velTex, vUv).rgb;\n  vec3 inPosition = texture2D(posTex, vUv).rgb;\n  vec3 attractorPos = targetPosition;\n  vec3 returnPos;\n  vec3 outVelocity;\n  returnPos = texture2D(targetTex, vUv).rgb;\n\n\n  float attractorDistance =  distance(attractorPos, inPosition);\n  vec3 attractorDir = normalize(inPosition - attractorPos);\n\n  vec3 attractorForce = ((1. - step(0.1, attractorDistance)) * attractorDir * attractorDistance) * 10.;\n\n  float returnDistance = distance(returnPos, inPosition);\n  vec3 returnForce = normalize(returnPos - inPosition);\n  returnForce *= returnDistance;\n\n  vec3 finalForce = attractorForce + returnForce;\n\n\n   outVelocity =  finalForce * 0.01;\n\n  gl_FragColor = vec4( outVelocity, 1.0 );\n}\n"
 
 /***/ },
 /* 3 */

@@ -1,4 +1,4 @@
-camera.position.set( -6, 2, 10 );
+camera.position.set( 0, 2, -10 );
 camera.lookAt( new THREE.Vector3(0,0,0) );
 
 var createGeometryTexture = function(geometry, size){
@@ -18,13 +18,13 @@ var createGeometryTexture = function(geometry, size){
   return dataTexture;
 };
 
-var size = 64;
+var size = 256;
 var horizontalPlane = {vertices: []};
 for(var i = 0; i < size*size; i++){
   horizontalPlane.vertices.push({
     x: (((i%size)/size)-0.5)*1.2,
-    y: 0.0,
-    z: (((i/size)/size)-0.5)*1.2
+    y: -i/100000,
+    z: (((i/size)/size)-0.5)*.12
   });
 };
 
@@ -33,13 +33,13 @@ var geometryTexturePlane = createGeometryTexture(horizontalPlane, size);
 // Create the particles
 var position = new THREE.Vector3(1,1,0);
 var particleOptions = {
-  textureSize: 64,
-  gravityFactor: 0.05,
+  textureSize: 256,
+  gravityFactor: 0.00,
   targetTexture: geometryTexturePlane,
   explodeRate: 0.01,
   pointSize: 1,
   //targetPosition: position,
-  colorFunctionString: 'color = vec4(0.0, 1.0-dist, 1.0-dist, 1.0);'
+  colorFunctionString: 'color = vec4(0.0, 0.0, 0.0, 1.0);'
 };
 var particles = new Particles(renderer, scene, particleOptions);
 

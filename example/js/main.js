@@ -27,7 +27,7 @@
 	window.document.body.appendChild( stats.domElement );
 
 	// Camera
-	var camera = new THREE.PerspectiveCamera( 45, ASPECT, 0.01,100 );
+	var camera = new THREE.PerspectiveCamera( 45, ASPECT, 0.01,10000 );
 	camera.position.set( -3, 1, 5 );
 	camera.lookAt( new THREE.Vector3(0,0,0) );
 	scene.add(camera);
