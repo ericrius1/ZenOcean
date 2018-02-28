@@ -18,16 +18,17 @@ void main() {
   float attractorDistance =  distance(attractorPos, inPosition);
   vec3 attractorDir = normalize(inPosition - attractorPos);
 
-  vec3 attractorForce = ((1. - step(0.1, attractorDistance)) * attractorDir * attractorDistance) * 10.;
+  vec3 attractorForce = ((1. - step(0.1, attractorDistance)) * attractorDir * attractorDistance);
+  attractorForce.y = abs(attractorForce.y * 5.);
 
   float returnDistance = distance(returnPos, inPosition);
-  vec3 returnForce = normalize(returnPos - inPosition);
-  returnForce *= returnDistance;
+  vec3 returnDir= normalize(returnPos - inPosition);
+  vec3 returnForce = returnDir * 100. *  pow(returnDistance, 2.);
 
   vec3 finalForce = attractorForce + returnForce;
 
 
-   outVelocity =  finalForce * 0.01;
+   outVelocity =  finalForce * gravityFactor *  0.01;
 
   gl_FragColor = vec4( outVelocity, 1.0 );
 }

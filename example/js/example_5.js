@@ -1,5 +1,5 @@
-camera.position.set( 0, 2, -10 );
-camera.lookAt( new THREE.Vector3(0,0,0) );
+camera.position.set( 0, 0, -1 );
+//camera.lookAt( new THREE.Vector3(0,0,0) );
 
 var createGeometryTexture = function(geometry, size){
   var data = new Float32Array( size * size * 3 );
@@ -18,12 +18,12 @@ var createGeometryTexture = function(geometry, size){
   return dataTexture;
 };
 
-var size = 256;
+var size = 1024;
 var horizontalPlane = {vertices: []};
 for(var i = 0; i < size*size; i++){
   horizontalPlane.vertices.push({
     x: (((i%size)/size)-0.5)*1.2,
-    y: -i/100000,
+    y: -i/1000000,
     z: (((i/size)/size)-0.5)*.12
   });
 };
@@ -33,8 +33,7 @@ var geometryTexturePlane = createGeometryTexture(horizontalPlane, size);
 // Create the particles
 var position = new THREE.Vector3(1,1,0);
 var particleOptions = {
-  textureSize: 256,
-  gravityFactor: 0.00,
+  textureSize: 1024,
   targetTexture: geometryTexturePlane,
   explodeRate: 0.01,
   pointSize: 1,
@@ -45,7 +44,7 @@ var particles = new Particles(renderer, scene, particleOptions);
 
 // Show a sphere to visualize the center of gravity
 var sphere = new THREE.Mesh(
-  new THREE.SphereGeometry(0.1, 10, 10),
+  new THREE.SphereGeometry(0.02, 10, 10),
   new THREE.MeshBasicMaterial({color: 0x00ffff, wireframe: true})
 );
 sphere.position.set(position.x, position.y, position.z);
