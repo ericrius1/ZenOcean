@@ -18,8 +18,9 @@ void main() {
   float attractorDistance =  distance(attractorPos, inPosition);
   vec3 attractorDir = normalize(inPosition - attractorPos);
 
-  vec3 attractorForce = ((1. - step(0.1, attractorDistance)) * attractorDir * attractorDistance);
-  attractorForce.y = abs(attractorForce.y * 5.);
+  vec3 attractorForce = ((1. - smoothstep(0.0, 0.1, attractorDistance)) * attractorDir * attractorDistance);
+  attractorForce *= 100.0;
+  //attractorForce.y = abs(attractorForce.y * 5.);
 
   float returnDistance = distance(returnPos, inPosition);
   vec3 returnDir= normalize(returnPos - inPosition);

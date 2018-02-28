@@ -70,6 +70,7 @@
     scenes.position.add(createMesh(textureSize, shaderMaterials.position));
     scenes.random.add(createMesh(textureSize, shaderMaterials.random));
     this.pointCloud = createPoints(textureSize, shaderMaterials.display);
+    this.pointCloud.frustumCulled = false;
     scenes.display.add(this.pointCloud);
 
     //debug

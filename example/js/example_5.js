@@ -48,7 +48,7 @@ var sphere = new THREE.Mesh(
   new THREE.MeshBasicMaterial({color: 0x00ffff, wireframe: true})
 );
 sphere.position.set(position.x, position.y, position.z);
-scene.add(sphere);
+//scene.add(sphere);
 
 
 // Update the particles for each frame
